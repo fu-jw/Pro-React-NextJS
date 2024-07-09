@@ -261,3 +261,29 @@ console.log(newArr3); // [Array(5), 6]
 const newArr4 = [...arr, 6] // 展开运算符,也称解构赋值
 console.log(newArr4); // [1, 2, 3, 4, 5, 6]
 ```
+
+11.React中的基础CSS
+
+`Count.css`: 此时的样式是全局的，可能影响到其他组件。
+若要局部样式，可以修改名称为：`Count.module.css`
+
+```css
+.count {
+  color: red;
+}
+```
+
+`Count.jsx`:
+
+```jsx
+import style from './Count.module.css'; // 引入局部样式
+
+exprot default function Count() {
+  // reutrn <span className="count">0</span>
+  return <span className={style.count}>0</span> // 使用局部样式
+}
+```
+
+但其实上面写法也不推荐，React 推荐使用 Tailwind CSS，一个基于原子类的 CSS 框架。
+
+将在后面项目中介绍使用
