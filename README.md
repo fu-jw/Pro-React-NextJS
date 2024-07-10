@@ -288,4 +288,4 @@ exprot default function Count() {
 
 将在后面项目中介绍使用
 
-## 01.example-next-app
+## 01.fancy-counter
