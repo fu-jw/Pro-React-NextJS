@@ -289,3 +289,15 @@ exprot default function Count() {
 将在后面项目中介绍使用
 
 ## 01.fancy-counter
+
+- React hook
+  - useState, useEffect 简单使用
+  - 以 use 开头的函数被称为 Hook
+- 项目整体结构分解组件化
+- 嵌套组件
+  - props 传递数据：
+- 父子组件
+  - 父组件向子组件传递数据
+- radix-ui
+
+## 02.word-analytics
