@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Count from "./Count";
-import OpBtn from "./OpBtn";
+import BtnContainer from "./BtnContainer";
 import ResetBtn from "./ResetBtn";
 import Title from "./Title";
 
@@ -12,7 +12,7 @@ export default function Card() {
       <Title />
       <Count count={count}/>
       <ResetBtn setCount={setCount}/>
-      <OpBtn setCount={setCount}/>
+      <BtnContainer setCount={setCount}/>
     </div>
   );
 }
