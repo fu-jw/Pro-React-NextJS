@@ -1,13 +1,16 @@
+import Count from "./Count";
+import OpBtn from "./OpBtn";
+import ResetBtn from "./ResetBtn";
+import Title from "./Title";
+
 function App() {
+  // 保存时 Prettier 会自动美化代码，包括添加了小括号（返回多行内容时自动添加）
   return (
     <main>
-      <h1>Fancy Counter</h1>
-      <p>0</p>
-      <button>Reset</button>
-      <div>
-        <button>-</button>
-        <button>+</button>
-      </div>
+      <Title />
+      <Count />
+      <ResetBtn />
+      <OpBtn />
     </main>
   );
 }
