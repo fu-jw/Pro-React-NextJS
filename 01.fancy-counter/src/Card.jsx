@@ -5,14 +5,15 @@ import ResetBtn from "./ResetBtn";
 import Title from "./Title";
 
 export default function Card() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(990);
+  const locked = count === 999 ? true : false;
 
   return (
-    <div className="card">
-      <Title />
-      <Count count={count}/>
-      <ResetBtn setCount={setCount}/>
-      <BtnContainer setCount={setCount}/>
+    <div className={`card ${locked ? "card--limit" : ""}`}>
+      <Title locked={locked} />
+      <Count count={count} />
+      <ResetBtn setCount={setCount} />
+      <BtnContainer setCount={setCount} locked={locked} />
     </div>
   );
 }
