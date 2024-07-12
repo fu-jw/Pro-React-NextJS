@@ -36,7 +36,7 @@ export default function Textarea() {
         placeholder="请输入文本内容"
         spellCheck="false"
       />
-      {/* 改进3：无需逻辑判断，告警内容为空就不显示 */}
+      {/* 改进3：无需逻辑判断，值为空就不显示 */}
       <Warning warningText={warningText} />
 
       {/* 改进2：省略一个状态变量 */}
