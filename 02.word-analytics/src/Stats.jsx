@@ -1,12 +1,12 @@
 import H2 from "./H2";
 
-export default function Stats({ wordNum, charNum, insNum, fbNum }) {
+export default function Stats({ stat }) {
   return (
     <section className="stats">
-      <Stat number={wordNum} type="字数" />
-      <Stat number={charNum} type="字符数" />
-      <Stat number={insNum} type="Instagram" />
-      <Stat number={fbNum} type="Facebook" />
+      <Stat number={stat.wordNum} type="字数" />
+      <Stat number={stat.charNum} type="字符数" />
+      <Stat number={stat.insNum} type="Instagram" />
+      <Stat number={stat.fbNum} type="Facebook" />
     </section>
   );
 }
