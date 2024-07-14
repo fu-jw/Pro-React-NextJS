@@ -1,8 +1,8 @@
 import Warning from "./Warning";
 import { useState } from "react";
 
-export default function Textarea() {
-  const [text, setText] = useState("");
+export default function Textarea({ text, setText }) {
+  // const [text, setText] = useState("");
   const [warningText, setWarningText] = useState("");
   // 可以省略一个状态，用 warningText 代替
   // const [showWaring, setShowWaring] = useState(false);
