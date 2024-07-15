@@ -336,3 +336,67 @@ export const countWords = (text) => {
   return { total, cn };
 };
 ```
+
+## 03.basics-nextjs
+
+### 安装Nextjs
+
+```sh
+npx create-next-app@latest
+```
+
+### 目录结构
+
+```txt
+basics-nextjs
+│  .eslintrc.json
+│  .gitignore
+│  next-env.d.ts
+│  next.config.mjs
+│  package-lock.json
+│  package.json
+│  postcss.config.mjs
+│  README.md
+│  tailwind.config.ts
+│  tsconfig.json
+│
+├─app
+│      favicon.ico
+│      globals.css
+│      layout.tsx
+│      page.tsx
+│
+└─public
+        next.svg
+        vercel.svg
+```
+
+结构说明：
+
+- app: 存放全局样式和布局组件
+  - `page.tsx`是页面组件
+  - `layout.tsx`是布局组件，一些可以共用的组件，比如：导航栏、页脚等。
+  - `page.tsx`中的`<Layout>`标签就是布局组件，可以将`<Layout>`标签中的内容放到`layout.tsx`中的`{children}`中。
+  - `globals.css`是全局样式，可以在里面定义一些全局样式，比如：`body`、`a`等。
+- public: 存放静态资源，比如图片、字体等
+- components: 存放公共组件
+- styles: 存放样式文件，比如：`index.module.css`，`about.module.css`
+- utils: 存放工具函数
+- lib: 存放第三方库，比如：`axios`
+- types: 存放类型定义文件，比如：`index.d.ts`
+
+### 路由分类
+
+- 动态路由：`/posts/[id].tsx`
+  - `[]`中的内容是动态的，比如：`[id]`，就表示 id 是动态的，可以是任意值。
+  - `/posts/[...id]`, `...`表示可以有多个参数，比如：`[...id]`，就表示 id 可以是多个参数，比如：`1/2/3`，就表示 id 是 1、2、3。
+- 分组路由：`/(auth)/...`
+  - `()`中的内容是分组的，比如：`(auth)`，就表示 auth 是分组的，可以是任意值。
+- 并行路由：可以根据不同用户角色显示不同内容
+  - `/@admin/...`
+  - `/@user/...`
+- 拦截路由：允许在当前布局中从应用程序的另一部分加载路由，当您想在不切换到其他上下文的情况下显示路由的内容时使用
+  - (.) to match segments on the same level
+  - (..) to match segments one level above
+  - (..)(..) to match segments two levels above
+  - (...) to match segments from the root app directory
