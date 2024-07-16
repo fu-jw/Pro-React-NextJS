@@ -400,3 +400,246 @@ basics-nextjs
   - (..) to match segments one level above
   - (..)(..) to match segments two levels above
   - (...) to match segments from the root app directory
+
+### 渲染分类
+
+- SSR(Server-side Rendering)：服务端渲染，又称动态渲染，首屏直出，SEO友好
+  - 需要导出一个名为getServerSideProps的异步函数。服务器将在每次请求时调用此函数
+  - 每次请求时都会生成页面HTML
+- CSR(Client-side Rendering)：客户端渲染，又称静态渲染，首屏不直出，不SEO友好
+  - 仅在客户端渲染，首屏不直出，不SEO友好
+  - 通过`useEffect`来获取数据，然后渲染页面
+  - 通过`useRouter`来获取路由对象，然后通过`router.query`来获取路由参数
+- SSG(Static Site Generation)：静态网站生成，又称预渲染，首屏直出，SEO友好
+  - 需要导出一个名为getStaticProps的异步函数。服务器将在构建时调用此函数
+  - 仅在构建时(`next build`)生成HTML
+- ISR(Incremental Static Regeneration)：增量静态再生，又称增量预渲染，首屏直出，SEO友好
+  - 需要导出一个名为getStaticProps的异步函数。服务器将在构建时调用此函数
+  - 通过`revalidate`参数来设置多久重新生成页面，单位秒
+  - 仅在构建时生成HTML，然后在每次请求时，如果页面过期，就会重新生成HTML，然后返回给客户端。
+  - 如果页面没有过期，就会直接返回缓存的HTML，不会重新生成HTML。
+  - 如果页面过期，但是有多个请求，只会有一个请求重新生成HTML，其他请求会等待，直到重新生成HTML完成，然后再返回给客户端。
+
+SSG 无数据：
+
+```jsx
+// 不需要获取预处理数据，在nextjs构建时就生成HTML页面
+function About() {
+  return <div>About</div>
+}
+ 
+export default About
+```
+
+SSG 有数据：
+
+```jsx
+export default function Blog({ posts }) {
+  // Render posts...
+}
+ 
+// This function gets called at build time
+export async function getStaticProps() {
+  // Call an external API endpoint to get posts
+  const res = await fetch('https://.../posts')
+  const posts = await res.json()
+ 
+  // By returning { props: { posts } }, the Blog component
+  // will receive `posts` as a prop at build time
+  return {
+    props: {
+      posts,
+    },
+  }
+}
+```
+
+ISR
+
+```jsx
+// 就是在SSG的基础上，增加了revalidate参数，用来设置多久重新生成页面，单位秒
+function Blog({ posts }) {
+  return (
+    <ul>
+      {posts.map((post) => (
+        <li key={post.id}>{post.title}</li>
+      ))}
+    </ul>
+  )
+}
+ 
+// This function gets called at build time on server-side.
+// It may be called again, on a serverless function, if
+// revalidation is enabled and a new request comes in
+export async function getStaticProps() {
+  const res = await fetch('https://.../posts')
+  const posts = await res.json()
+ 
+  return {
+    props: {
+      posts,
+    },
+    // Next.js will attempt to re-generate the page:
+    // - When a request comes in
+    // - At most once every 10 seconds
+    revalidate: 10, // In seconds
+  }
+}
+ 
+// This function gets called at build time on server-side.
+// It may be called again, on a serverless function, if
+// the path has not been generated.
+export async function getStaticPaths() {
+  const res = await fetch('https://.../posts')
+  const posts = await res.json()
+ 
+  // Get the paths we want to pre-render based on posts
+  const paths = posts.map((post) => ({
+    params: { id: post.id },
+  }))
+ 
+  // We'll pre-render only these paths at build time.
+  // { fallback: 'blocking' } will server-render pages
+  // on-demand if the path doesn't exist.
+  return { paths, fallback: 'blocking' }
+}
+ 
+export default Blog
+```
+
+### 数据库操作
+
+>使用Neon Postgres和drizzle-orm
+
+1.安装依赖：
+
+```sh
+npm i drizzle-orm @neondatabase/serverless
+# -D 表示只在Dev环境安装
+npm i -D drizzle-kit
+# 管理环境变量
+npm i dotenv
+```
+
+注意：可能出现的问题
+
+```txt
+$ npm i drizzle-orm @neondatabase/serverless
+npm error code ERESOLVE
+npm error ERESOLVE could not resolve
+npm error
+npm error While resolving: 03.basics-nextjs@0.1.0
+npm error Found: react@18.3.1
+npm error node_modules/react
+npm error   peer react@"^18.2.0" from next@14.2.5
+npm error   node_modules/next
+npm error     next@"14.2.5" from the root project
+npm error   peer react@"^18.3.1" from react-dom@18.3.1
+npm error   node_modules/react-dom
+npm error     peer react-dom@"^18.2.0" from next@14.2.5
+npm error     node_modules/next
+npm error       next@"14.2.5" from the root project
+npm error     react-dom@"^18" from the root project
+npm error   2 more (styled-jsx, the root project)
+npm error
+npm error Could not resolve dependency:
+npm error drizzle-orm@"*" from the root project
+npm error
+npm error Conflicting peer dependency: react@18.2.0
+npm error node_modules/react
+npm error   peer react@"18.2.0" from react-native@0.74.3
+npm error   node_modules/react-native
+npm error     peer react-native@">0.73.0" from @op-engineering/op-sqlite@6.2.11
+npm error     node_modules/@op-engineering/op-sqlite
+npm error       peerOptional @op-engineering/op-sqlite@">=2" from drizzle-orm@0.32.0
+npm error       node_modules/drizzle-orm
+npm error       peerOptional @op-engineering/op-sqlite@">=2" from drizzle-orm@0.32.0
+npm error       node_modules/drizzle-orm
+npm error         drizzle-orm@"*" from the root project
+npm error       node_modules/drizzle-orm
+npm error         drizzle-orm@"*" from the root project
+npm error         drizzle-orm@"*" from the root project
+npm error
+npm error Fix the upstream dependency conflict, or retry
+npm error this command with --force or --legacy-peer-deps
+npm error to accept an incorrect (and potentially broken) dependency resolution.
+```
+
+解决方法：
+
+```sh
+# 更新npm
+npm update --save
+npm update --save-dev
+```
+
+2.配置环境变量
+
+在根目录下创建`.env`文件，然后添加如下内容：
+
+  ```txt
+  DATABASE_URL=postgres://postgres:123456@localhost:5432/postgres
+  ```
+
+3.创建数据库表
+`schema.ts`:
+
+```ts
+export const usersTable = pgTable('users_table', {
+  id: serial('id').primaryKey(),
+  name: text('name').notNull(),
+  age: integer('age').notNull(),
+  email: text('email').notNull().unique(),
+});
+```
+
+4.配置drizzle
+`drizzle.config.ts`
+
+```ts
+import { config } from 'dotenv';
+import { defineConfig } from "drizzle-kit";
+
+config({ path: '.env' });
+
+export default defineConfig({
+  schema: "./server/schema.ts",
+  out: "./server/migrations",
+  dialect: "postgresql",
+  dbCredentials: {
+    url: process.env.DATABASE_URL!,
+  },
+});
+```
+
+5.生成数据库表
+
+```sh
+# 生成DB表操作语句
+npx drizzle-kit generate --config ./server/drizzle.config.ts
+# 迁移
+npx drizzle-kit migrate --config ./server/drizzle.config.ts
+# 推送
+npx drizzle-kit push --config ./server/drizzle.config.ts
+```
+
+6.使用数据库
+
+```ts
+import { db } from './db';
+import { InsertUser, usersTable } from './schema';
+
+export async function createUser(data: InsertUser) {
+  await db.insert(usersTable).values(data);
+}
+```
+
+7.使用页面查看数据表
+
+>需要再开一个终端执行，不可关闭
+
+```ts
+npx drizzle-kit studio --config ./server/drizzle.config.ts
+```
+
+Drizzle Studio is up and running on https://local.drizzle.studio
