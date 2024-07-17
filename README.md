@@ -339,7 +339,7 @@ export const countWords = (text) => {
 
 ## 03.basics-nextjs
 
-### 安装Nextjs
+### 安装 Nextjs
 
 ```sh
 npx create-next-app@latest
@@ -403,32 +403,32 @@ basics-nextjs
 
 ### 渲染分类
 
-- SSR(Server-side Rendering)：服务端渲染，又称动态渲染，首屏直出，SEO友好
-  - 需要导出一个名为getServerSideProps的异步函数。服务器将在每次请求时调用此函数
-  - 每次请求时都会生成页面HTML
-- CSR(Client-side Rendering)：客户端渲染，又称静态渲染，首屏不直出，不SEO友好
-  - 仅在客户端渲染，首屏不直出，不SEO友好
+- SSR(Server-side Rendering)：服务端渲染，又称动态渲染，首屏直出，SEO 友好
+  - 需要导出一个名为 getServerSideProps 的异步函数。服务器将在每次请求时调用此函数
+  - 每次请求时都会生成页面 HTML
+- CSR(Client-side Rendering)：客户端渲染，又称静态渲染，首屏不直出，不 SEO 友好
+  - 仅在客户端渲染，首屏不直出，不 SEO 友好
   - 通过`useEffect`来获取数据，然后渲染页面
   - 通过`useRouter`来获取路由对象，然后通过`router.query`来获取路由参数
-- SSG(Static Site Generation)：静态网站生成，又称预渲染，首屏直出，SEO友好
-  - 需要导出一个名为getStaticProps的异步函数。服务器将在构建时调用此函数
-  - 仅在构建时(`next build`)生成HTML
-- ISR(Incremental Static Regeneration)：增量静态再生，又称增量预渲染，首屏直出，SEO友好
-  - 需要导出一个名为getStaticProps的异步函数。服务器将在构建时调用此函数
+- SSG(Static Site Generation)：静态网站生成，又称预渲染，首屏直出，SEO 友好
+  - 需要导出一个名为 getStaticProps 的异步函数。服务器将在构建时调用此函数
+  - 仅在构建时(`next build`)生成 HTML
+- ISR(Incremental Static Regeneration)：增量静态再生，又称增量预渲染，首屏直出，SEO 友好
+  - 需要导出一个名为 getStaticProps 的异步函数。服务器将在构建时调用此函数
   - 通过`revalidate`参数来设置多久重新生成页面，单位秒
-  - 仅在构建时生成HTML，然后在每次请求时，如果页面过期，就会重新生成HTML，然后返回给客户端。
-  - 如果页面没有过期，就会直接返回缓存的HTML，不会重新生成HTML。
-  - 如果页面过期，但是有多个请求，只会有一个请求重新生成HTML，其他请求会等待，直到重新生成HTML完成，然后再返回给客户端。
+  - 仅在构建时生成 HTML，然后在每次请求时，如果页面过期，就会重新生成 HTML，然后返回给客户端。
+  - 如果页面没有过期，就会直接返回缓存的 HTML，不会重新生成 HTML。
+  - 如果页面过期，但是有多个请求，只会有一个请求重新生成 HTML，其他请求会等待，直到重新生成 HTML 完成，然后再返回给客户端。
 
 SSG 无数据：
 
 ```jsx
 // 不需要获取预处理数据，在nextjs构建时就生成HTML页面
 function About() {
-  return <div>About</div>
+  return <div>About</div>;
 }
- 
-export default About
+
+export default About;
 ```
 
 SSG 有数据：
@@ -437,20 +437,20 @@ SSG 有数据：
 export default function Blog({ posts }) {
   // Render posts...
 }
- 
+
 // This function gets called at build time
 export async function getStaticProps() {
   // Call an external API endpoint to get posts
-  const res = await fetch('https://.../posts')
-  const posts = await res.json()
- 
+  const res = await fetch("https://.../posts");
+  const posts = await res.json();
+
   // By returning { props: { posts } }, the Blog component
   // will receive `posts` as a prop at build time
   return {
     props: {
       posts,
     },
-  }
+  };
 }
 ```
 
@@ -465,16 +465,16 @@ function Blog({ posts }) {
         <li key={post.id}>{post.title}</li>
       ))}
     </ul>
-  )
+  );
 }
- 
+
 // This function gets called at build time on server-side.
 // It may be called again, on a serverless function, if
 // revalidation is enabled and a new request comes in
 export async function getStaticProps() {
-  const res = await fetch('https://.../posts')
-  const posts = await res.json()
- 
+  const res = await fetch("https://.../posts");
+  const posts = await res.json();
+
   return {
     props: {
       posts,
@@ -483,33 +483,33 @@ export async function getStaticProps() {
     // - When a request comes in
     // - At most once every 10 seconds
     revalidate: 10, // In seconds
-  }
+  };
 }
- 
+
 // This function gets called at build time on server-side.
 // It may be called again, on a serverless function, if
 // the path has not been generated.
 export async function getStaticPaths() {
-  const res = await fetch('https://.../posts')
-  const posts = await res.json()
- 
+  const res = await fetch("https://.../posts");
+  const posts = await res.json();
+
   // Get the paths we want to pre-render based on posts
   const paths = posts.map((post) => ({
     params: { id: post.id },
-  }))
- 
+  }));
+
   // We'll pre-render only these paths at build time.
   // { fallback: 'blocking' } will server-render pages
   // on-demand if the path doesn't exist.
-  return { paths, fallback: 'blocking' }
+  return { paths, fallback: "blocking" };
 }
- 
-export default Blog
+
+export default Blog;
 ```
 
 ### 数据库操作
 
->使用Neon Postgres和drizzle-orm
+> 使用 Neon Postgres 和 drizzle-orm
 
 1.安装依赖：
 
@@ -577,30 +577,30 @@ npm update --save-dev
 
 在根目录下创建`.env`文件，然后添加如下内容：
 
-  ```txt
-  DATABASE_URL=postgres://postgres:123456@localhost:5432/postgres
-  ```
+```txt
+DATABASE_URL=postgres://postgres:123456@localhost:5432/postgres
+```
 
 3.创建数据库表
 `schema.ts`:
 
 ```ts
-export const usersTable = pgTable('users_table', {
-  id: serial('id').primaryKey(),
-  name: text('name').notNull(),
-  age: integer('age').notNull(),
-  email: text('email').notNull().unique(),
+export const usersTable = pgTable("users_table", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  age: integer("age").notNull(),
+  email: text("email").notNull().unique(),
 });
 ```
 
-4.配置drizzle
+4.配置 drizzle
 `drizzle.config.ts`
 
 ```ts
-import { config } from 'dotenv';
+import { config } from "dotenv";
 import { defineConfig } from "drizzle-kit";
 
-config({ path: '.env' });
+config({ path: ".env" });
 
 export default defineConfig({
   schema: "./server/schema.ts",
@@ -626,8 +626,8 @@ npx drizzle-kit push --config ./server/drizzle.config.ts
 6.使用数据库
 
 ```ts
-import { db } from './db';
-import { InsertUser, usersTable } from './schema';
+import { db } from "./db";
+import { InsertUser, usersTable } from "./schema";
 
 export async function createUser(data: InsertUser) {
   await db.insert(usersTable).values(data);
@@ -636,10 +636,53 @@ export async function createUser(data: InsertUser) {
 
 7.使用页面查看数据表
 
->需要再开一个终端执行，不可关闭
+> 需要再开一个终端执行，不可关闭
 
 ```ts
 npx drizzle-kit studio --config ./server/drizzle.config.ts
 ```
 
 Drizzle Studio is up and running on https://local.drizzle.studio
+
+### Tailwind CSS
+
+Tailwind CSS 的工作原理是扫描所有 HTML 文件、JavaScript 组件以及任何 模板中的 CSS 类（class）名，然后生成相应的样式代码并写入 到一个静态 CSS 文件中。
+
+他快速、灵活、可靠，没有运行时负担
+
+1.安装：
+
+```sh
+# NextJS 自带，无需安装
+npm install -D tailwindcss
+```
+
+2.配置文件：
+
+```js
+/** @type {import('tailwindcss').Config} */
+// 配置文件中添加所有模板文件的路径。
+module.exports = {
+  content: ["./src/**/*.{html,js}"],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+};
+```
+
+3.将加载 Tailwind 的指令添加到 CSS 文件中
+
+在你的主 CSS 文件中通过 @tailwind 指令添加每一个 Tailwind 功能模块。
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+4.开启 Tailwind CLI 构建
+
+```sh
+npx tailwindcss -i ./src/input.css -o ./src/output.css --watch
+```
