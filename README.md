@@ -686,3 +686,16 @@ module.exports = {
 ```sh
 npx tailwindcss -i ./src/input.css -o ./src/output.css --watch
 ```
+
+5.安装 shadcn-ui
+
+```sh
+npx shadcn-ui@latest init
+```
+
+```sh
+# 添加一个按钮测试
+npx shadcn-ui@latest add button
+```
+
+### Auth
