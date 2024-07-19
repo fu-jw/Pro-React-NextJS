@@ -1,7 +1,7 @@
 "use client";
 
 import * as z from "zod";
-
+import { useState, useTransition } from "react";
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import { LoginSchema } from "@/schema";
 import { useForm } from "react-hook-form";
@@ -20,8 +20,14 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
+import { login } from "@/actions/login";
 
 export const LoginForm = () => {
+  // 表单状态
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -31,7 +37,19 @@ export const LoginForm = () => {
   });
 
   const onSubmit = (data: z.infer<typeof LoginSchema>) => {
-    console.log(data);
+    // console.log(data);
+    // 调用服务端接口
+    // 也可以使用 axios.post("/your/api/rout", value)
+    // login(data);
+    setError("");
+    setSuccess("");
+
+    startTransition(() => {
+      login(data).then((data) => {
+        setError(data.error);
+        setSuccess(data.success);
+      });
+    });
   };
 
   return (
@@ -54,7 +72,12 @@ export const LoginForm = () => {
                   <FormLabel>邮箱</FormLabel>
 
                   <FormControl>
-                    <Input type="email" placeholder="请输入邮箱" {...field} />
+                    <Input
+                      disabled={isPending}
+                      type="email"
+                      placeholder="请输入邮箱"
+                      {...field}
+                    />
                   </FormControl>
 
                   <FormMessage />
@@ -72,6 +95,7 @@ export const LoginForm = () => {
 
                   <FormControl>
                     <Input
+                      disabled={isPending}
                       type="password"
                       placeholder="请输入密码"
                       {...field}
@@ -85,12 +109,12 @@ export const LoginForm = () => {
           </div>
 
           {/* 错误信息:用户名或密码错误 */}
-          <FormError message="" />
+          <FormError message={error} />
           {/* 错误信息:邮件已发送 */}
-          <FormSuccess message="" />
+          <FormSuccess message={success} />
 
           {/* 登录按钮 */}
-          <Button type="submit" className="w-full">
+          <Button disabled={isPending} type="submit" className="w-full">
             登录
           </Button>
         </form>

@@ -699,3 +699,28 @@ npx shadcn-ui@latest add button
 ```
 
 ## 04.nextjs-auth-v5
+
+### useTransition
+
+`useTransition` 是一个帮助你在不阻塞 UI 的情况下更新状态的 React Hook。
+
+```jsx
+const [isPending, startTransition] = useTransition();
+```
+
+使用：
+在组件顶层调用 useTransition，将某些状态更新标记为 transition。
+
+```jsx
+import { useTransition } from "react";
+
+function TabContainer() {
+  const [isPending, startTransition] = useTransition();
+  // ……
+}
+```
+
+useTransition 返回一个由两个元素组成的数组：
+
+- isPending，告诉你是否存在待处理的 transition。
+- startTransition 函数，你可以使用此方法将状态更新标记为 transition
