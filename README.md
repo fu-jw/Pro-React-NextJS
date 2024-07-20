@@ -724,3 +724,58 @@ useTransition 返回一个由两个元素组成的数组：
 
 - isPending，告诉你是否存在待处理的 transition。
 - startTransition 函数，你可以使用此方法将状态更新标记为 transition
+
+### prisma
+
+>quickstart: https://www.prisma.io/docs/getting-started/quickstart
+1.安装：
+
+```sh
+npm install prisma --save-dev
+npm i @prisma/client
+```
+
+2.初始化：
+
+```sh
+npx prisma init
+```
+
+3.编写模型：
+
+```tsx
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+```
+
+4.生成模型：
+
+```sh
+npx prisma generate
+```
+
+5.连接数据库：
+
+```sh
+npx prisma db push
+```
+
+> 注意：该操作会覆盖数据库，慎用！
+
+6.使用：
+
+### Auth.js
+
+>https://authjs.dev
+>前面已经安装 prisma ,这里需要安装对应的依赖
+
+安装依赖：
+
+```sh
+npm install @auth/prisma-adapter
+```
