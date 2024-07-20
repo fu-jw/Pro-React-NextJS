@@ -779,3 +779,15 @@ npx prisma db push
 ```sh
 npm install @auth/prisma-adapter
 ```
+
+```sh
+# hash 密码
+npm i bcrypt
+# 安装类型声明
+npm i @types/bcrypt -D
+#########################
+# 也可以使用 bcryptjs
+npm i bcryptjs
+# 安装类型声明
+npm i @types/bcryptjs -D
+```
