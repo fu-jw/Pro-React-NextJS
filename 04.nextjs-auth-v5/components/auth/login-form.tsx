@@ -37,7 +37,7 @@ export const LoginForm = () => {
   });
 
   const onSubmit = (data: z.infer<typeof LoginSchema>) => {
-    // console.log(data);
+    console.log("登录数据", data);
     // 调用服务端接口
     // 也可以使用 axios.post("/your/api/rout", value)
     // login(data);
@@ -46,8 +46,8 @@ export const LoginForm = () => {
 
     startTransition(() => {
       login(data).then((data) => {
-        setError(data.error);
-        setSuccess(data.success);
+        setError(data?.error);
+        setSuccess(data?.success);
       });
     });
   };

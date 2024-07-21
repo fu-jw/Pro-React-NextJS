@@ -727,8 +727,7 @@ useTransition 返回一个由两个元素组成的数组：
 
 ### prisma
 
->quickstart: https://www.prisma.io/docs/getting-started/quickstart
-1.安装：
+> quickstart: https://www.prisma.io/docs/getting-started/quickstart 1.安装：
 
 ```sh
 npm install prisma --save-dev
@@ -771,8 +770,8 @@ npx prisma db push
 
 ### Auth.js
 
->https://authjs.dev
->前面已经安装 prisma ,这里需要安装对应的依赖
+> https://authjs.dev
+> 前面已经安装 prisma ,这里需要安装对应的依赖
 
 安装依赖：
 
@@ -791,3 +790,41 @@ npm i bcryptjs
 # 安装类型声明
 npm i @types/bcryptjs -D
 ```
+
+### 中间件
+
+中间件允许您在请求完成之前运行代码。然后根据传入的请求，可以通过重写、重定向、修改请求或响应标头或直接响应来修改响应。
+
+中间件函数可以执行以下操作：
+
+- 身份验证和授权：在授予对特定页面或 API 路由的访问权限之前，确保用户身份并检查会话 Cookie。
+- 服务器端重定向：根据特定条件（例如，区域设置、用户角色）在服务器级别重定向用户。
+- 路径重写：通过基于请求属性动态重写 API 路由或页面的路径，支持 A/B 测试、功能卷展栏或遗留路径。
+- 机器人检测：通过检测和阻止机器人流量来保护您的资源。
+- 日志记录和分析：在页面或 API 处理之前，捕获并分析请求数据以获取见解。
+- 功能标记：动态启用或禁用功能，以实现无缝的功能推出或测试。
+
+中间件文件
+
+```ts
+// 根目录下创建 middleware.ts
+import { auth } from "@/auth";
+
+export default auth((req) => {
+  // req.auth
+});
+
+// Optionally, don't invoke Middleware on some paths
+// 规则匹配上的路径，中间件不会被调用
+export const config = {
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+};
+```
+
+### !和!!的区别
+
+- ! 是逻辑非运算符，用于将一个值转换为布尔值，如果值为 true，则返回 false，如果值为 false，则返回 true。
+  - 可以将变量转换为布尔值
+  - null、undefined、0、NaN、''、false 会被转换为 false，其他值都为 true。
+- !! 是双重逻辑非运算符，用于将一个值转换为布尔值，如果值为 true，则返回 true，如果值为 false，则返回 false。
+  - 常用来判断一个值是否为空，如果值为空，则返回 false，否则返回 true。
