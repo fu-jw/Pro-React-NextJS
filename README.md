@@ -762,6 +762,8 @@ npx prisma generate
 
 ```sh
 npx prisma db push
+# 查看网页版，http://localhost:5555
+npx prisma studio
 ```
 
 > 注意：该操作会覆盖数据库，慎用！
