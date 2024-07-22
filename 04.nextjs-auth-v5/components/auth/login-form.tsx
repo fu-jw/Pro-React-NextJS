@@ -54,7 +54,8 @@ export const LoginForm = () => {
     startTransition(() => {
       login(data).then((data) => {
         setError(data?.error);
-        setSuccess(data?.success);
+        // TODO: 邮箱 2AF
+        // setSuccess(data?.success);
       });
     });
   };
