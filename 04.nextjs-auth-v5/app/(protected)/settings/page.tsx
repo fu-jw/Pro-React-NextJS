@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 
 const SettingsPage = async () => {
   const session = await auth();
+  console.log("settings page:", session?.user.role);
 
   return (
     <div>
