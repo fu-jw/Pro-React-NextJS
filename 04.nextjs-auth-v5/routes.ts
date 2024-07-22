@@ -2,7 +2,7 @@
 export const publicRoutes = ["/"];
 
 // 用于认证的路由，将被记录在 /settings
-export const authRoutes = ["/auth/login", "/auth/register"];
+export const authRoutes = ["/auth/login", "/auth/register", "/auth/error"];
 
 // 以 /api 开头的认证路由
 export const apiAuthRoutes = "/api/auth";

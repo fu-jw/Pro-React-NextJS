@@ -6,7 +6,7 @@ import { CardWrapper } from "@/components/auth/card-wrapper";
 import { LoginSchema } from "@/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import { useSearchParams } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -23,6 +23,13 @@ import { FormSuccess } from "@/components/form-success";
 import { login } from "@/actions/login";
 
 export const LoginForm = () => {
+  // 出现 OAuthAccountNotLinked 错误时，在页面给出提示
+  const searchParams = useSearchParams();
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "该邮箱已被注册，请直接登录"
+      : "";
+
   // 表单状态
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
@@ -108,9 +115,9 @@ export const LoginForm = () => {
             />
           </div>
 
-          {/* 错误信息:用户名或密码错误 */}
-          <FormError message={error} />
-          {/* 错误信息:邮件已发送 */}
+          {/* 错误信息 */}
+          <FormError message={error || urlError} />
+          {/* 成功信息 */}
           <FormSuccess message={success} />
 
           {/* 登录按钮 */}

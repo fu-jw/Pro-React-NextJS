@@ -9,6 +9,26 @@ import { getUserById } from "@/data/user";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   // providers: [GitHub, Google],
+
+  // 配置 pages
+  // 当登录时遇到相同邮箱就重定向到 signIn
+  // 遇到错误就重定向到 error，避免出现下面的错误页面
+  // 解决的错误：To confirm your identity, sign in with the same account you used originally.
+  // 错误链接：http://localhost:3000/api/auth/signin?error=OAuthAccountNotLinked
+  // 原因：使用第三方登录时，github和Google账号是同一个邮箱
+  pages: {
+    signIn: "/auth/login",
+    error: "/auth/error",
+  },
+  events: {
+    // 使用github登录后邮箱自动校验
+    async linkAccount({ user }) {
+      await db.user.update({
+        where: { id: user.id },
+        data: { emailVerified: new Date() },
+      });
+    },
+  },
   callbacks: {
     // 注释该方法，后续使用github、google登录
     // async signIn({ user }) {
