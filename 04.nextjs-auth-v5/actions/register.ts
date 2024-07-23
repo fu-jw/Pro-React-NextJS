@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import { db } from "@/lib/db";
 import { getUserByEmail } from "@/data/user";
 import { generateVerificationToken } from "@/lib/tokens";
+import { sendVerificationEmail } from "@/lib/mail";
 
 export const register = async (data: z.infer<typeof RegisterSchema>) => {
   // console.log(data);
@@ -34,8 +35,11 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
     },
   });
 
-  // TODO：验证码校验邮件
-  await generateVerificationToken(email);
+  // 发送验证邮件
+  const verificationToken = await generateVerificationToken(email);
+  if (verificationToken) {
+    await sendVerificationEmail(email, verificationToken.token);
+  }
 
   return { success: "验证邮件已发送" };
 };
