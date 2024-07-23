@@ -5,6 +5,7 @@ import { RegisterSchema } from "@/schema";
 import bcrypt from "bcrypt";
 import { db } from "@/lib/db";
 import { getUserByEmail } from "@/data/user";
+import { generateVerificationToken } from "@/lib/tokens";
 
 export const register = async (data: z.infer<typeof RegisterSchema>) => {
   // console.log(data);
@@ -34,6 +35,7 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
   });
 
   // TODO：验证码校验邮件
+  await generateVerificationToken(email);
 
-  return { success: "账户创建成功" };
+  return { success: "验证邮件已发送" };
 };
