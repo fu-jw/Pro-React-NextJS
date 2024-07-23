@@ -1,12 +1,13 @@
 "use server";
 
 import * as z from "zod";
-import { LoginSchema } from "@/schema";
 import { signIn } from "@/auth";
-import { defaultLoginRedirect } from "@/routes";
 import { AuthError } from "next-auth";
-import { generateVerificationToken } from "@/lib/tokens";
+import { LoginSchema } from "@/schema";
 import { getUserByEmail } from "@/data/user";
+import { defaultLoginRedirect } from "@/routes";
+import { sendVerificationEmail } from "@/lib/mail";
+import { generateVerificationToken } from "@/lib/tokens";
 
 export const login = async (data: z.infer<typeof LoginSchema>) => {
   // console.log(data);
@@ -23,11 +24,14 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
     return { error: "邮箱不存在" };
   }
 
-  // 此处不再发送邮箱验证，已经在auth.callback.signIn中进行了邮箱判断
-  // if (!existUser.emailVerified) {
-  //   await generateVerificationToken(email);
-  //   return { success: "验证邮件已发送" };
-  // }
+  if (!existUser.emailVerified) {
+    const varificationToken = await generateVerificationToken(email);
+    // 发送验证邮件
+    if (varificationToken) {
+      await sendVerificationEmail(email, varificationToken.token);
+    }
+    return { success: "验证邮件已发送" };
+  }
 
   try {
     // signIn 是 NextAuthJS 提供的方法，会通过 api/auth/... 登录
