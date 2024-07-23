@@ -7,7 +7,6 @@ import Credentials from "next-auth/providers/credentials";
 import { LoginSchema } from "@/schema";
 import { getUserByEmail } from "@/data/user";
 
-// Notice this is only an object, not a full Auth.js instance
 export default {
   // providers: [GitHub, Google],
   providers: [

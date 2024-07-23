@@ -21,7 +21,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     error: "/auth/error",
   },
   events: {
-    // 使用github登录后邮箱自动校验
+    // 使用github等第三方登录后邮箱自动校验
+    // 第三方注册时已经校验邮箱，此处无需再校验
     async linkAccount({ user }) {
       await db.user.update({
         where: { id: user.id },

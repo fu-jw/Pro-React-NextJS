@@ -27,7 +27,7 @@ export const LoginForm = () => {
   const searchParams = useSearchParams();
   const urlError =
     searchParams.get("error") === "OAuthAccountNotLinked"
-      ? "该邮箱已被注册，请直接登录"
+      ? "该邮箱已通过其他平台注册，请直接登录"
       : "";
 
   // 表单状态
