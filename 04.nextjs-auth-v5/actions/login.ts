@@ -5,6 +5,8 @@ import { LoginSchema } from "@/schema";
 import { signIn } from "@/auth";
 import { defaultLoginRedirect } from "@/routes";
 import { AuthError } from "next-auth";
+import { generateVerificationToken } from "@/lib/tokens";
+import { getUserByEmail } from "@/data/user";
 
 export const login = async (data: z.infer<typeof LoginSchema>) => {
   // console.log(data);
@@ -16,7 +18,20 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
   // return { success: "登录成功" };
   const { email, password } = validate.data;
 
+  const existUser = await getUserByEmail(email);
+  if (!existUser || !existUser.email || !existUser.password) {
+    return { error: "邮箱不存在" };
+  }
+
+  // 此处不再发送邮箱验证，已经在auth.callback.signIn中进行了邮箱判断
+  // if (!existUser.emailVerified) {
+  //   await generateVerificationToken(email);
+  //   return { success: "验证邮件已发送" };
+  // }
+
   try {
+    // signIn 是 NextAuthJS 提供的方法，会通过 api/auth/... 登录
+    // 在此之前需要进行充分的校验
     await signIn("credentials", {
       email,
       password,

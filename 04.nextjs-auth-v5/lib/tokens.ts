@@ -5,8 +5,11 @@ import { getVerificationTokenByEmail } from "@/data/verification_tokens";
 export const generateVerificationToken = async (email: string) => {
   // 生成UUID
   const token = uuidv4();
-  // 设置过期时间
-  const expires = new Date(new Date().getTime() + 1000 * 3600);
+  // 设置过期时间:1小时
+  // 东八区：+8小时
+  const expires = new Date(
+    new Date().getTime() + 1000 * 3600 + 8 * 60 * 60 * 1000
+  );
 
   // 判断是否存在该邮箱的验证token，如果存在就删除
   const existToken = await getVerificationTokenByEmail(email);

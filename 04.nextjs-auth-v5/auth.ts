@@ -31,6 +31,24 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     },
   },
   callbacks: {
+    // 点击登录后回调校验邮箱是否已经验证
+    async signIn({ user, account }) {
+      // 如果不是 credentials，即第三方登录就直接返回true
+      if (account?.provider !== "credentials") {
+        return true;
+      }
+
+      // 根据ID判断用户是否存在
+      // 并阻止用户未验证邮箱登录
+      const existUser = await getUserById(user.id as string);
+      if (!existUser || !existUser.emailVerified) {
+        return false;
+      }
+
+      // TODO: 添加 2FA
+      
+      return true;
+    },
     // 注释该方法，后续使用github、google登录
     // async signIn({ user }) {
     //   console.log("signIn: ", user);
