@@ -1,5 +1,5 @@
 // 所有用户可以访问的路由
-export const publicRoutes = ["/"];
+export const publicRoutes = ["/", "/auth/new-verification"];
 
 // 用于认证的路由，将被记录在 /settings
 export const authRoutes = ["/auth/login", "/auth/register", "/auth/error"];

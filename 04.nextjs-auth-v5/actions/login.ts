@@ -49,6 +49,8 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
         case "CallbackRouteError":
         case "CredentialsSignin":
           return { error: "用户名或密码错误" };
+        case "AccessDenied":
+          return { error: "请校验您的邮箱" };
         default:
           return { error: "登录失败" };
       }
