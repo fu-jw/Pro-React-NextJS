@@ -3,10 +3,9 @@
 import * as z from "zod";
 import { useState, useTransition } from "react";
 import { CardWrapper } from "@/components/auth/card-wrapper";
-import { LoginSchema } from "@/schema";
+import { ResetSchema } from "@/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSearchParams } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -16,44 +15,35 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import Link from "next/link";
-import { login } from "@/actions/login";
+import { reset } from "@/actions/reset";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 
-export const LoginForm = () => {
-  // 出现 OAuthAccountNotLinked 错误时，在页面给出提示
-  const searchParams = useSearchParams();
-  const urlError =
-    searchParams.get("error") === "OAuthAccountNotLinked"
-      ? "该邮箱已通过其他平台注册，请直接登录"
-      : "";
-
+export const ResetForm = () => {
   // 表单状态
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
 
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof ResetSchema>>({
+    resolver: zodResolver(ResetSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
-  const onSubmit = (data: z.infer<typeof LoginSchema>) => {
-    console.log("登录数据", data);
+  const onSubmit = (data: z.infer<typeof ResetSchema>) => {
     // 调用服务端接口
     // 也可以使用 axios.post("/your/api/rout", value)
-    // login(data);
+    // 注意：use client，该打印会出现在浏览器控制台。
+    console.log("重置密码数据", data);
     setError("");
     setSuccess("");
 
     startTransition(() => {
-      login(data).then((data) => {
+      reset(data).then((data) => {
         setError(data?.error);
         setSuccess(data?.success);
       });
@@ -61,11 +51,12 @@ export const LoginForm = () => {
   };
 
   return (
+    // showSocial 重置密码页面不需要第三方登录
     <CardWrapper
-      headerLabel="欢迎回来"
-      backBtnLabel="免费注册"
-      backBtnHref="/auth/register"
-      showSocial
+      headerLabel="重置密码"
+      backBtnLabel="返回登录"
+      backBtnHref="/auth/login"
+      showSocial={false}
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -92,54 +83,16 @@ export const LoginForm = () => {
                 </FormItem>
               )}
             />
-
-            {/* 密码 */}
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>密码</FormLabel>
-
-                  <FormControl>
-                    <Input
-                      disabled={isPending}
-                      type="password"
-                      placeholder="请输入密码"
-                      {...field}
-                    />
-                  </FormControl>
-
-                  {/* 重置密码按钮 */}
-                  <Button
-                    size="sm"
-                    variant="link"
-                    asChild
-                    className="px-0 font-normal"
-                  >
-                    {/* 
-                    需要首先在 routes.ts 中配置路由
-                    所有请求都会经过 middleware.ts 过滤
-                    */}
-                    <Link href="/auth/reset" className="text-sm">
-                      忘记密码？
-                    </Link>
-                  </Button>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
           </div>
 
           {/* 错误信息 */}
-          <FormError message={error || urlError} />
+          <FormError message={error} />
           {/* 成功信息 */}
           <FormSuccess message={success} />
 
           {/* 登录按钮 */}
           <Button disabled={isPending} type="submit" className="w-full">
-            登录
+            重置密码
           </Button>
         </form>
       </Form>

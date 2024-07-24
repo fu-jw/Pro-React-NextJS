@@ -14,3 +14,9 @@ export const RegisterSchema = z.object({
   password: z.string().min(6, "密码最少6位"),
   name: z.string().min(1, "请输入用户名"),
 });
+
+export const ResetSchema = z.object({
+  email: z.string().email({
+    message: "请输入邮箱",
+  }),
+});
