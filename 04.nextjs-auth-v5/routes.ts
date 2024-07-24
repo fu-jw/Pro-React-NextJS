@@ -7,6 +7,7 @@ export const authRoutes = [
   "/auth/register",
   "/auth/error",
   "/auth/reset",
+  "/auth/new-password",
 ];
 
 // 以 /api 开头的认证路由, NextAuthJS调用
