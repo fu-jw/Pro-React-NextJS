@@ -80,10 +80,10 @@ export const generateVerificationToken = async (email: string) => {
 export const generateTwoFactorToken = async (email: string) => {
   // 生成6位随机数
   const token = crypto.randomInt(100_000, 1_000_000).toString();
-  // 设置过期时间:1小时
+  // 设置过期时间:5分钟
   // 东八区：+8小时
   const expires = new Date(
-    new Date().getTime() + 1000 * 3600 + 8 * 60 * 60 * 1000
+    new Date().getTime() + 1000 * 300 + 8 * 60 * 60 * 1000
   );
 
   // 判断是否存在该邮箱的验证token，如果存在就删除
