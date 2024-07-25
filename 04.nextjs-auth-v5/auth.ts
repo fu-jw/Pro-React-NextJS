@@ -93,6 +93,11 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         session.user.role = token.role as UserRole;
       }
 
+      // 获取用户是否开启2FA并添加到 session.user.isTwoFactorEnabled
+      if (session.user) {
+        session.user.isTwoFactorEnabled = token.isTwoFactorAuthEnabled as boolean;
+      }
+
       return session;
     },
     jwt: async ({ token, user }) => {
@@ -109,6 +114,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         const user = await getUserById(token.sub);
         if (user) {
           token.role = user.role;
+          token.isTwoFactorAuthEnabled = user.isTwoFactorAuthEnabled;
         }
       }
 

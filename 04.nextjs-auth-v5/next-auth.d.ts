@@ -5,6 +5,7 @@ import { UserRole } from "@/prisma/client";
 export type ExtendedUser = DefaultSession["user"] & {
   // 可以在这里添加扩展字段，在session中出现
   role: UserRole;
+  isTwoFactorEnabled: boolean;
 };
 
 declare module "next-auth" {
