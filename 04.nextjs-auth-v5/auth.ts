@@ -6,6 +6,7 @@ import { UserRole } from "@prisma/client";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/lib/db";
 import { getUserById } from "@/data/user";
+import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   // providers: [GitHub, Google],
@@ -52,6 +53,19 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       }
 
       // TODO: 添加 2FA
+      if (existUser.isTwoFactorAuthEnabled) {
+        const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
+          existUser.id
+        );
+        if (!twoFactorConfirmation) {
+          return false;
+        }
+
+        // 在下次登录时删掉2FA确认
+        await db.twoFactorConfirmation.delete({
+          where: { id: twoFactorConfirmation.id },
+        });
+      }
 
       return true;
     },

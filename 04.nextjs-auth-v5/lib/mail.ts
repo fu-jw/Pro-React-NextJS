@@ -31,3 +31,18 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
     </div>`,
   });
 };
+
+// 发送两步验证码邮件
+export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
+  await resend.emails.send({
+    from: "Acme <onboarding@resend.dev>",
+    to: email,
+    subject: "登录验证码",
+    // react: EmailTemplate({ url }),
+    html: `<div>
+      <h1>登录验证码</h1>
+      <p>请输入下面验证码进行登录:</p>
+      <p>验证码：${token}</p>
+    </div>`,
+  });
+};

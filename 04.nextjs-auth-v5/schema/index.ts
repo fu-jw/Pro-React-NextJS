@@ -5,6 +5,7 @@ export const LoginSchema = z.object({
     message: "请输入邮箱",
   }),
   password: z.string().min(1, "请输入密码"),
+  code: z.optional(z.string()),
 });
 
 export const RegisterSchema = z.object({
