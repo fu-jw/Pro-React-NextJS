@@ -27,3 +27,7 @@ export const NewPasswordSchema = z.object({
     message: "密码最少6位",
   }),
 });
+
+export const SettingsSchema = z.object({
+  name: z.optional(z.string()),
+});

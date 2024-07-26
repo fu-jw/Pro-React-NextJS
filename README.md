@@ -830,3 +830,5 @@ export const config = {
   - null、undefined、0、NaN、''、false 会被转换为 false，其他值都为 true。
 - !! 是双重逻辑非运算符，用于将一个值转换为布尔值，如果值为 true，则返回 true，如果值为 false，则返回 false。
   - 常用来判断一个值是否为空，如果值为空，则返回 false，否则返回 true。
+
+> 注意：视频最后一节 Settings 未完成。
