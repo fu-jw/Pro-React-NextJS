@@ -832,3 +832,21 @@ export const config = {
   - 常用来判断一个值是否为空，如果值为空，则返回 false，否则返回 true。
 
 > 注意：视频最后一节 Settings 未完成。
+
+## 5.onlyhorse
+
+>https://www.youtube.com/watch?v=mduqkHlJujA
+
+## 项目初始化
+
+1.安装NextJS：
+
+```sh
+npx create-next-app@latest
+```
+
+2.安装ShadcnUI
+
+```sh
+npx shadcn-ui@latest init
+```
