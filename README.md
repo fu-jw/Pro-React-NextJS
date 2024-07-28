@@ -865,7 +865,7 @@ import {
   LoginLink,
 } from "@kinde-oss/kinde-auth-nextjs/components";
 
-<RegisterLink className="flex-1" onClick={() => setLoading(true)}>
+<RegisterLink className="flex-1">
   <Button className="w-full" variant={"outline"} disabled={loading}>
     注册
   </Button>

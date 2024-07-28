@@ -29,17 +29,22 @@ const HeroSection = () => {
           {/* Logo下的短语:普通2倍，大屏3倍 */}
           {/* text-balance:可以将文本均匀分布在每行 */}
           <p className="text-2xl md:text-3xl text-balance">
-            Hey! It's 
+            Hey! It's
             <span className="bg-stone-800 px-2 font-bold text-white">NOT</span>
             what it looks like.
           </p>
           <p className="text-2xl md:text-3xl mb-3 leading-snug text-balance">
-            Built for 
-            <span className="bg-sky-500 font-bold px-2 text-white">HORSE</span> NOT 
+            Built for
+            <span className="bg-sky-500 font-bold px-2 text-white">
+              HORSE
+            </span>{" "}
+            NOT
             <span className="bg-red-500 px-2 font-bold text-white">OTHER</span>
           </p>
           {/* 左边授权按钮部分 */}
-          <AuthButtons/>
+          <div className="mt-20">
+            <AuthButtons />
+          </div>
         </div>
       </div>
 
