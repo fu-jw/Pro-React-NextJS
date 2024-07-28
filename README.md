@@ -835,18 +835,39 @@ export const config = {
 
 ## 5.onlyhorse
 
->https://www.youtube.com/watch?v=mduqkHlJujA
+> https://www.youtube.com/watch?v=mduqkHlJujA
 
 ## 项目初始化
 
-1.安装NextJS：
+1.安装 NextJS：
 
 ```sh
 npx create-next-app@latest
 ```
 
-2.安装ShadcnUI
+2.安装 ShadcnUI
 
 ```sh
 npx shadcn-ui@latest init
+```
+
+3.安装 Kinde-Auth
+
+```sh
+npm i @kinde-oss/kinde-auth-nextjs
+```
+
+使用：
+
+```tsx
+import {
+  RegisterLink,
+  LoginLink,
+} from "@kinde-oss/kinde-auth-nextjs/components";
+
+<RegisterLink className="flex-1" onClick={() => setLoading(true)}>
+  <Button className="w-full" variant={"outline"} disabled={loading}>
+    注册
+  </Button>
+</RegisterLink>;
 ```
