@@ -1,5 +1,13 @@
+"use client";
+
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs";
+
 const HomeScreen = () => {
-  return <div>HomeScreen</div>;
+  return (
+    <div>
+      <LogoutLink>登出</LogoutLink>
+    </div>
+  );
 };
 
 export default HomeScreen;

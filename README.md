@@ -871,3 +871,37 @@ import {
   </Button>
 </RegisterLink>;
 ```
+
+4.安装黑暗模式
+
+```sh
+npm install next-themes
+```
+
+创建一个 provider
+`components/theme-provider.tsx`
+
+```sh
+"use client"
+
+import * as React from "react"
+import { ThemeProvider as NextThemesProvider } from "next-themes"
+import { type ThemeProviderProps } from "next-themes/dist/types"
+
+export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
+  return <NextThemesProvider {...props}>{children}</NextThemesProvider>
+}
+```
+
+在 root layout 中使用，包裹 {children} 即可
+
+```ts
+<ThemeProvider
+  attribute="class"
+  defaultTheme="system"
+  enableSystem
+  disableTransitionOnChange
+>
+  {children}
+</ThemeProvider>
+```
