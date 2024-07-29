@@ -4,6 +4,7 @@ import UnderlinedText from "@/components/decorators/UnderlinedText";
 import TodaysHighlight from "./TodaysHighlight";
 import RotatedText from "@/components/decorators/RotatedText";
 import MasonryGrid from "./MasonryGrid";
+import Features from "./Features";
 
 const AuthScreen = () => {
   return (
@@ -21,6 +22,7 @@ const AuthScreen = () => {
             </UnderlinedText>
             <span className="text-2xl md:text-4xl ml-1">👇</span>
           </p>
+
           {/* 今日 highlight 内容 */}
           <div className="flex flex-col gap-10 mt-10">
             <TodaysHighlight />
@@ -30,9 +32,12 @@ const AuthScreen = () => {
               <p className="text-2xl md:text-5xl text-center tracking-tighter font-bold">
                 Meet the <RotatedText>Stars</RotatedText> of Our Farm
               </p>
-
+              {/* 照片区域 */}
               <MasonryGrid />
             </div>
+
+            {/* Features */}
+            <Features />
           </div>
         </div>
       </div>
