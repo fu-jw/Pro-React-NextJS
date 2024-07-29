@@ -979,6 +979,9 @@ const handleMouseMove = (
 
 ### 安装使用 Magic UI
 
+> 实现滚动留言部分
+> https://magicui.design
+
 安装：
 
 ```sh
