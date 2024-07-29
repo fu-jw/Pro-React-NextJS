@@ -833,7 +833,7 @@ export const config = {
 
 > 注意：视频最后一节 Settings 未完成。
 
-## 5.onlyhorse
+## 05.onlyhorse
 
 > https://www.youtube.com/watch?v=mduqkHlJujA
 
@@ -974,5 +974,41 @@ const handleMouseMove = (
     width={500}
     height={500}
   />
-</div>
+</div>;
 ```
+
+### 安装使用 Magic UI
+
+安装：
+
+```sh
+npx magicui-cli add marquee
+```
+
+配置 `tailwind.config.js`
+
+```js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  theme: {
+    extend: {
+      animation: {
+        marquee: "marquee var(--duration) linear infinite",
+        "marquee-vertical": "marquee-vertical var(--duration) linear infinite",
+      },
+      keyframes: {
+        marquee: {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(calc(-100% - var(--gap)))" },
+        },
+        "marquee-vertical": {
+          from: { transform: "translateY(0)" },
+          to: { transform: "translateY(calc(-100% - var(--gap)))" },
+        },
+      },
+    },
+  },
+};
+```
+
+使用：`Testimonials.tsx`

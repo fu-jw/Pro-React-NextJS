@@ -5,6 +5,7 @@ import TodaysHighlight from "./TodaysHighlight";
 import RotatedText from "@/components/decorators/RotatedText";
 import MasonryGrid from "./MasonryGrid";
 import Features from "./Features";
+import { Testimonials } from "./Testimonials";
 
 const AuthScreen = () => {
   return (
@@ -38,6 +39,11 @@ const AuthScreen = () => {
 
             {/* Features */}
             <Features />
+            {/* 滚动留言 */}
+            <Testimonials />
+            {/* 价格部分 */}
+
+            {/* 团队部分 */}
           </div>
         </div>
       </div>
