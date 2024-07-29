@@ -837,7 +837,7 @@ export const config = {
 
 > https://www.youtube.com/watch?v=mduqkHlJujA
 
-## 项目初始化
+### 项目初始化
 
 1.安装 NextJS：
 
@@ -904,4 +904,75 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
 >
   {children}
 </ThemeProvider>
+```
+
+### [&>div:not(:first-child)]:mt-8
+
+在 TypeScript React 文件中，代码片段 `[&>div:not(:first-child)]:mt-8` 是一个 CSS 选择器和一个 Tailwind CSS 样式规则。
+
+- `&` 符号是对父选择器的引用。在本例中，它指的是父 div 元素，该元素具有类 `columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4`。
+- `>` 符号是子选择器，它选择直接子元素。
+- `div` 是 div 元素的元素选择器。
+- `:not(:first-child)` 是一个伪类，它选择所有不是其父元素的第一个子元素的 div 元素。
+- `:mt-8` 是一个 Tailwind CSS 实用类，它应用一个上外边距 (margin-top) 为 32px (1rem = 16px, 所以 8 \* 16px = 128px)。
+
+因此，完整的选择器 `[&>div:not(:first-child)]:mt-8` 应用了 `mt-8` 实用类到父 div 元素的所有直接 div 子元素中，但不包括第一个子元素。这将在每对 div 元素之间产生一个垂直间隙 (vertical gap) 32px。
+
+翻译成中文：在 TypeScript React 文件中，代码片段 `[&>div:not(:first-child)]:mt-8` 是一个 CSS 选择器和一个 Tailwind CSS 样式规则。它对父 div 元素的所有直接 div 子元素（不包括第一个子元素）应用了 `mt-8` 实用类，从而在每对 div 元素之间产生一个垂直间隙 (vertical gap) 32px。
+
+### 实现的效果：鼠标悬停在图片时，图片跟随鼠标进行局部放大
+
+```tsx
+// 第一步：
+// 鼠标悬停时获取图片index
+const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+// 鼠标悬停的位置
+const [mousePosition, setMousePosition] = useState<{ x: number; y: number }>({
+  x: 0,
+  y: 0,
+});
+
+// 第二步：
+// 实现的效果：鼠标悬停在图片时，图片跟随鼠标进行局部放大
+const handleMouseMove = (
+  e: React.MouseEvent<HTMLDivElement>,
+  index: number
+) => {
+  if (hoverIndex === index) {
+    // react 是鼠标悬停时当前的 DOMRect对象，用于获取元素的大小及其相对于视口的位置
+    const react = (e.target as HTMLDivElement).getBoundingClientRect();
+    // 计算鼠标的位置
+    // react.left：指当前对象的左边距；react.top：指当前对象的上边距
+    // react.width，react.height 指当前元素的宽，高
+    // event.clientX - react.left：指鼠标距离当前元素的左边的距离
+    // x,y 值用于确定在 CSS 类中应用的 transform 属性的 translateX,translateY 值
+    // 从而实现图片在水平和垂直方向上的局部移动。
+    const x = ((e.clientX - react.left) / react.width) * 100;
+    const y = ((e.clientY - react.top) / react.height) * 100;
+
+    // 设置值
+    setMousePosition({ x, y });
+  }
+};
+// 第三步：使用
+<div
+  key={i}
+  className="relative overflow-hidden rounded-md"
+  onMouseEnter={() => setHoverIndex(i)}
+  onMouseLeave={() => setHoverIndex(null)}
+  onMouseMove={(e) => handleMouseMove(e, i)}
+>
+  {/* hover:scale-150 : 鼠标悬停放大1.5倍 */}
+  {/* transition-transform duration-500 ease-in-out :过渡效果，持续时间，进、出过渡 */}
+  <Image
+    src={`/featured/featured${i + 1}.jpg`}
+    className="cursor-pointer hover:scale-150 transition-transform duration-500 ease-in-out"
+    alt="Featured Horse"
+    style={{
+      transformOrigin: `${mousePosition.x}% ${mousePosition.y}%`,
+    }}
+    width={500}
+    height={500}
+  />
+</div>
 ```
