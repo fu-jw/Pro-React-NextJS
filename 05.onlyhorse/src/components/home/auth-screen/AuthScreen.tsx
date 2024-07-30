@@ -6,6 +6,7 @@ import RotatedText from "@/components/decorators/RotatedText";
 import MasonryGrid from "./MasonryGrid";
 import Features from "./Features";
 import { Testimonials } from "./Testimonials";
+import Pricing from "@/components/Pricing";
 
 const AuthScreen = () => {
   return (
@@ -42,7 +43,7 @@ const AuthScreen = () => {
             {/* 滚动留言 */}
             <Testimonials />
             {/* 价格部分 */}
-
+            <Pricing />
             {/* 团队部分 */}
           </div>
         </div>

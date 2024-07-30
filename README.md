@@ -835,7 +835,7 @@ export const config = {
 
 ## 05.onlyhorse
 
-> https://www.youtube.com/watch?v=mduqkHlJujA
+> <https://www.youtube.com/watch?v=mduqkHlJujA>
 
 ### 项目初始化
 
@@ -980,7 +980,7 @@ const handleMouseMove = (
 ### 安装使用 Magic UI
 
 > 实现滚动留言部分
-> https://magicui.design
+> <https://magicui.design>
 
 安装：
 
