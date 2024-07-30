@@ -34,11 +34,9 @@ const HeroSection = () => {
             what it looks like.
           </p>
           <p className="text-2xl md:text-3xl mb-3 leading-snug text-balance">
-            Built for
-            <span className="bg-sky-500 font-bold px-2 text-white">
-              HORSE
-            </span>{" "}
-            NOT
+            Built for{" "}
+            <span className="bg-sky-500 font-bold px-2 text-white">HORSE</span>{" "}
+            NOT{" "}
             <span className="bg-red-500 px-2 font-bold text-white">OTHER</span>
           </p>
           {/* 左边授权按钮部分 */}
