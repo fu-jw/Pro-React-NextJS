@@ -5,7 +5,7 @@ import TodaysHighlight from "./TodaysHighlight";
 import RotatedText from "@/components/decorators/RotatedText";
 import MasonryGrid from "./MasonryGrid";
 import Features from "./Features";
-import { Testimonials } from "./Testimonials";
+import Testimonials from "./Testimonials";
 import Pricing from "@/components/Pricing";
 
 const AuthScreen = () => {

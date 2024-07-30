@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import Marquee from "@/components/magicui/marquee";
+import RotatedText from "@/components/decorators/RotatedText";
 
 const reviews = [
   {
@@ -77,22 +78,35 @@ const ReviewCard = ({
     </figure>
   );
 };
+// https://shipixen.com/shadcn-pricing-page
 
-export function Testimonials() {
+const Testimonials = () => {
   return (
-    <div className="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl">
-      <Marquee pauseOnHover className="[--duration:20s]">
-        {firstRow.map((review) => (
-          <ReviewCard key={review.username} {...review} />
-        ))}
-      </Marquee>
-      <Marquee reverse pauseOnHover className="[--duration:20s]">
-        {secondRow.map((review) => (
-          <ReviewCard key={review.username} {...review} />
-        ))}
-      </Marquee>
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white dark:from-background"></div>
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-white dark:from-background"></div>
+    <div className="mt-12">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl text-center tracking-tighter font-bold">
+        Why <RotatedText>choose</RotatedText> Us
+      </h1>
+
+      <p className="mt-4 mb-10 text-md md:text-xl text-muted-foreground text-center">
+        Hear from our happy customers and see why they love our service.
+      </p>
+
+      <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background py-20 md:shadow-xl">
+        <Marquee pauseOnHover className="[--duration:20s]">
+          {firstRow.map((review) => (
+            <ReviewCard key={review.username} {...review} />
+          ))}
+        </Marquee>
+        <Marquee reverse pauseOnHover className="[--duration:20s]">
+          {secondRow.map((review) => (
+            <ReviewCard key={review.username} {...review} />
+          ))}
+        </Marquee>
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white dark:from-background"></div>
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-white dark:from-background"></div>
+      </div>
     </div>
   );
-}
+};
+
+export default Testimonials;
