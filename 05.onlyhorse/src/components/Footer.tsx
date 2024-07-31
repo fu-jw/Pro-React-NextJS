@@ -5,7 +5,7 @@ const Footer = () => {
         <p className="text-balance text-center text-sm leading-loose text-muted-foreground md:text-left">
           Built by{" "}
           <a
-            href="https://fu-jw.com"
+            href="https://google.com"
             target="_blank"
             rel="noreferrer"
             className="font-medium underline underline-offset-4"
@@ -14,7 +14,7 @@ const Footer = () => {
           </a>
           . The source code is available on{" "}
           <a
-            href="https://github.com/fu-jw"
+            href="https://github.com"
             target="_blank"
             rel="noreferrer"
             className="font-medium underline underline-offset-4"
