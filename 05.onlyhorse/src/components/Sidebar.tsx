@@ -1,8 +1,6 @@
 import Link from "next/link";
-import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Shirt, Home, LayoutDashboard, User } from "lucide-react";
-import { getKindeServerSession, LogoutLink } from "@kinde-oss/kinde-auth-nextjs/server";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,6 +10,9 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { ModeToggle } from "./ModeToggle";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import LogoutButton from "./LogoutButton";
+import { getUserProfileAction } from "@/app/update-profile/actions";
 
 const SIDEBAR_LINKS = [
   {
@@ -26,65 +27,82 @@ const SIDEBAR_LINKS = [
   },
 ];
 
-// 左边栏部分
 const Sidebar = async () => {
+  // 由 Kinde 获取当前用户信息
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
-  // const userProfile = await getUserProfileAction();
+  const userProfile = await getUserProfileAction();
+
   const isAdmin = process.env.ADMIN_EMAIL === user?.email;
 
   return (
-    <div className="flex lg:w-1/5 flex-col gap-3 px-2 border-y sticky left-0 top-0 h-screen">
+    <div
+      className="flex lg:w-1/5 flex-col gap-3 px-2 border-r sticky
+    left-0 top-0 h-screen"
+    >
       {/* 头像 */}
-      <Link href={"/update-profile"} className="max-w-fit">
+      <Link href="/update-profile" className="max-w-fit">
         <Avatar className="mt-4 cursor-pointer">
-          <AvatarImage src="/user-placeholder.png" className="object-cover" />
+          <AvatarImage
+            src={userProfile?.image || "/user-placeholder.png"}
+            className="object-cover"
+          />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       </Link>
-      {/* 导航 */}
+
+      {/* 左边栏 */}
       <nav className="flex flex-col gap-3">
-        {SIDEBAR_LINKS.map((link, index) => (
+        {SIDEBAR_LINKS.map((link) => (
           <Link
+            key={link.href}
             href={link.href}
-            key={index}
-            className="flex gap-2 items-center lg:w-full 
-            hover:bg-primary-foreground font-bold hover:text-primary px-2 py-1 
-            rounded-full justify-center lg:justify-normal"
+            className="flex w-12 lg:w-full items-center gap-2 hover:bg-primary-foreground 
+            font-bold hover:text-primary px-2 py-1 rounded-full justify-center lg:justify-normal"
           >
             <link.icon className="w-6 h-6" />
             <span className="hidden lg:block">{link.label}</span>
           </Link>
         ))}
-        {/* 导航-管理后台 */}
+
+        {/* 只有管理员显示Dashboard */}
         {isAdmin && (
           <Link
-            href={"/dashboard"}
-            className="flex w-12 lg:w-full items-center gap-2 hover:bg-primary-foreground font-bold hover:text-primary px-2 py-1 rounded-full justify-center lg:justify-normal"
+            href={"/secret-dashboard"}
+            className="flex w-12 lg:w-full items-center gap-2 hover:bg-primary-foreground 
+            font-bold hover:text-primary px-2 py-1 rounded-full justify-center lg:justify-normal"
           >
             <LayoutDashboard className="w-6 h-6" />
             <span className="hidden lg:block">Dashboard</span>
           </Link>
         )}
-        {/* 导航-Setting 下拉 */}
+
+        {/* Setting 下拉菜单 */}
         <DropdownMenu>
-          <div className="flex w-12 lg:w-full items-center gap-2 hover:bg-primary-foreground font-bold hover:text-primary px-2 py-1 rounded-full justify-center lg:justify-normal">
+          <div
+            className="flex w-12 lg:w-full items-center gap-2 hover:bg-primary-foreground 
+          font-bold hover:text-primary px-2 py-1 rounded-full justify-center lg:justify-normal"
+          >
             <DropdownMenuTrigger className="flex items-center gap-2">
               <User className="w-6 h-6" />
               <span className="hidden lg:block">Setting</span>
             </DropdownMenuTrigger>
           </div>
-          {/* 下拉内容 */}
+
           <DropdownMenuContent>
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <Link href={"#"}>
+            <Link
+              href={
+                process.env.STRIPE_BILLING_PORTAL_LINK_DEV +
+                "?prefilled_email=" +
+                user?.email
+              }
+            >
               <DropdownMenuItem>Billing</DropdownMenuItem>
             </Link>
-            <LogoutLink>
-              <DropdownMenuItem>Logout</DropdownMenuItem>
-            </LogoutLink>
+            <LogoutButton />
           </DropdownMenuContent>
         </DropdownMenu>
 
@@ -94,5 +112,4 @@ const Sidebar = async () => {
     </div>
   );
 };
-
 export default Sidebar;

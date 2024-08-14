@@ -12,7 +12,7 @@ const HomeScreen = async () => {
   });
   // 获取当前用户信息
   const user = await getUserProfileAction();
-  // 当前用户不存在就直接返回找不到
+  // 当前用户未授权就直接返回404
   if (!user) return notFound();
 
   return (

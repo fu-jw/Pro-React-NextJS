@@ -1,9 +1,10 @@
+import "./globals.css";
 import type { Metadata } from "next";
+import Footer from "@/components/Footer";
 import { Inter } from "next/font/google";
 import "next-cloudinary/dist/cld-video-player.css";
-import "./globals.css";
 import { ThemeProvider } from "@/providers/ThemeProvider";
-import Footer from "@/components/Footer";
+import TanStackProvider from "@/providers/TanStackProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,7 +28,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="flex flex-col h-screen">
-            <div className="flex-1">{children}</div>
+            <div className="flex-1">
+              {/* tanstack 提供状态管理: https://tanstack.com/query/latest/docs/framework/react/quick-start */}
+              <TanStackProvider>{children}</TanStackProvider>
+            </div>
             <Footer />
           </div>
         </ThemeProvider>

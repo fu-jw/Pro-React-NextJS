@@ -34,6 +34,7 @@ const ContentTab = () => {
 
   const { toast } = useToast();
 
+  // post 内容发布动作
   const { mutate: createPost, isPending } = useMutation({
     mutationKey: ["createPost"],
     mutationFn: async () =>
@@ -43,6 +44,8 @@ const ContentTab = () => {
         title: "Post Created",
         description: "Your post has been successfully created",
       });
+
+      // 重置表单内容
       setText("");
       setMediaType("video");
       setIsPublic(false);
