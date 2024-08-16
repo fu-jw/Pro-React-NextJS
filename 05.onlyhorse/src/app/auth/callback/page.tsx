@@ -21,6 +21,7 @@ const Page = () => {
     // 	router.push("/");
     // }
 
+    // 从本地获取 stripe 链接
     const stripeUrl = localStorage.getItem("stripeRedirectUrl");
     if (stripeUrl && user?.email && !checkingAuth) {
       localStorage.removeItem("stripeRedirectUrl");

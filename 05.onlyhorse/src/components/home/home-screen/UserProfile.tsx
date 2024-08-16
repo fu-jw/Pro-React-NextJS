@@ -18,7 +18,7 @@ const UserProfile = async () => {
   return (
     <div className="flex flex-col">
       {/* 背景图 */}
-      <CoverImage adminName={admin?.name} />
+      <CoverImage adminName={admin?.name!} />
       {/* 用户简介 */}
       <div className="flex flex-col p-4">
         <div className="flex flex-col md:flex-row gap-4 justify-between">

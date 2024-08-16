@@ -18,11 +18,17 @@ export async function checkAuthStatus() {
 
   // 不存在就注册
   if (!existingUser) {
+    // 避免出现 undefined
+    let dbName = user.given_name!;
+    if (user.family_name) {
+      dbName += user.family_name;
+    }
+
     await prisma.user.create({
       data: {
         id: user.id,
         email: user.email!,
-        name: user.given_name + " " + user.family_name,
+        name: dbName,
         image: user.picture,
       },
     });

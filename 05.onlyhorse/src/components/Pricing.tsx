@@ -85,6 +85,7 @@ export default function Pricing() {
   const monthlyUrl = tier.monthlyUrl;
   const yearlyUrl = tier.yearlyUrl;
 
+  // 存储 stripe 链接到本地，使用：/app/auth/callback/page.tsx
   const saveStripeLinkToLocalStorage = (url: string) => {
     localStorage.setItem("stripeRedirectUrl", url);
   };
