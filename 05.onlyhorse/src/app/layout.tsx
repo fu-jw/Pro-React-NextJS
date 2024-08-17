@@ -6,7 +6,11 @@ import "next-cloudinary/dist/cld-video-player.css";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import TanStackProvider from "@/providers/TanStackProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  adjustFontFallback: false,
+});
 
 export const metadata: Metadata = {
   title: "Only Horse",
